@@ -1,12 +1,16 @@
 # jwplayer-progress
 
-A jwlayer plugin to track video progress and meta data like page url, current browser / device and other parameters that are passed during the initialization.
+A jwlayer (version 5) plugin to track video progress and meta data like page url, current browser / device and other parameters that are passed during the initialization.
 
-## Usage
+## Sample Usage
 
-## Examples
+Please check progress.html in the examples directory
 
-## Sample Data
+## Config Options
+
 
 ## Applications
 
+## Contributing
+
+Please help with your contribution by filing any issues if found. Pull requests are welcomed :)
