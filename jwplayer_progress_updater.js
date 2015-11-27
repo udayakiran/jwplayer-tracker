@@ -144,14 +144,7 @@ VideoProgressTracker.prototype.updateProgress = function (position, force, seeke
     }
 
     this.updated_progress_percent = Math.round((this.currentPosition / video_duration) * 100);
-    //console.log("seeked------" + seeked);
-    //console.log("currentPosition------" + this.currentPosition);
-    //console.log("prevPosition------" + this.prevPosition);
-    //console.log("total_session_duration------" + this.total_session_duration);
-
-    //if (seeked !== true) {
     this.total_session_duration = this.total_session_duration + (duration_played > 0 ? duration_played : 0);
-    //}
 
     this.saveProgress();
     this.prevPosition = this.currentPosition;
