@@ -1,15 +1,27 @@
+/**
+ * jquery.confirmAction
+ *
+ * @version 1.2
+ *
+ * @author Uday kiran
+ * @author Uday kiran<udaykiran.vit@gmail.com>
+ *
+ * @url <https://github.com/udayakiran/jwplayer-tracker>
+ */
+
 (function (jwplayer) {
   var template = function (player, config, div) {
     var progressTracker = new VideoProgressTracker({
-      progress_percent: config.progress_percent,
-      progress_update_url: config.progress_update_url,
-      frequency: config.frequency,
+      config: config,
       player: player,
+      progress: config.progress,
+      url: config.url,
+      frequency: config.frequency,
       video_duration_callback: player.getDuration,
       resume_from_last: config.resume_from_last,
       progress_only: config.progress_only,
       debug: config.debug
-    });
+    }); 
 
     player.onReady(_setup);
 
@@ -19,6 +31,7 @@
         player.onTime(_updateProgress);
       }
       if (progressTracker.hasValidOptions()) {
+        progressTracker.log("hasValidOptions");
         player.onComplete(_completeUpdate);
         player.onPlay(_initPosition);
         player.onSeek(_onSeek);
@@ -56,8 +69,8 @@
 
 
 function VideoProgressTracker(options) {
-  this.progressPercentage = options.progress_percent;
-  this.progressUpdateUrl = options.progress_update_url;
+  this.progressPercentage = options.progress;
+  this.progressUpdateUrl = options.url;
   this.prevPosition = 0;
   this.frequency = (options.frequency !== 'undefined' && options.frequency > 0) ? options.frequency : 10;
   this.player = options.player;
@@ -67,7 +80,8 @@ function VideoProgressTracker(options) {
   this.total_session_duration = 0;
   this.progress_only = (options.progress_only === true) ? options.progress_only : false;
   this.session_id = guid();
-  this.updated_progress_percent = 0;
+  this.current_progress_percent = 0;
+  this.last_updated_progress = 0;
 
   function guid() {
     function _p8(s) {
@@ -115,7 +129,6 @@ VideoProgressTracker.prototype.hasProgressUpdateUrl = function () {
 };
 
 VideoProgressTracker.prototype.updateProgress = function (position, force, seeked) {
-    console.log("Frequency - " + this.frequency);
   if (seeked) {
     var duration_played = this.currentPosition - this.prevPosition;
   }
@@ -135,10 +148,13 @@ VideoProgressTracker.prototype.updateProgress = function (position, force, seeke
       this.currentPosition = video_duration;
     }
 
-    this.updated_progress_percent = Math.round((this.currentPosition / video_duration) * 100);
+    this.current_progress_percent = Math.round((this.currentPosition / video_duration) * 100);
     this.total_session_duration = this.total_session_duration + (duration_played > 0 ? duration_played : 0);
 
-    this.saveProgress();
+    if (!this.progress_only || (this.progress_only && this.last_updated_progress < this.current_progress_percent)) {
+      this.saveProgress();
+      this.last_updated_progress = this.current_progress_percent;
+    }
     this.prevPosition = this.currentPosition;
   }
 };
@@ -151,10 +167,13 @@ VideoProgressTracker.prototype.saveProgress = function () {
     session_id: self.session_id,
     previous_position: self.prevPosition,
     current_position: self.currentPosition,
-    progress: self.updated_progress_percent,
-    video_duration: parseInt(this.videoDuration()),
-    total_session_duration: self.total_session_duration
+    progress: self.current_progress_percent,
+    video_duration: parseInt(this.videoDuration())
   };
+
+  if (!this.progress_only) {
+    data.total_session_duration = self.total_session_duration;
+  }
 
   this.log("progress info - " + console.log(JSON.parse(JSON.stringify(data))));
 
@@ -178,6 +197,7 @@ VideoProgressTracker.prototype.saveProgress = function () {
     ;
   });
 };
+
 VideoProgressTracker.prototype.log = function (msg) {
   if (this.debug === true && !(typeof window.console === 'undefined')) {
     console.log(msg);

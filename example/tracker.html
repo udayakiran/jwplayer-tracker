@@ -14,10 +14,11 @@
   </head>
   <body>
 
-    <h1>About the JW Player 5</h1>
+    <h1>JW Player 5 - jwplayer_tracker Plugin demo</h1>
+    <h3>Enable 'debug' and check your browser console (Chrome/FF/Safari) to debug</h3>
     <!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE -->
     <div id="mediaplayer">JW Player goes here</div>
-
+    
     <script type="text/javascript" src="jwplayer.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 
@@ -27,17 +28,15 @@
         file: "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
         image: "preview.jpg",
         'plugins': {'jwplayer_tracker.js': {
-            progress_update_url: '/',
-            progress_percent: 50,
+            url: '/',
+            progress: 25,
             resume_from_last: true,
-            debug: false,
+            debug: true,
             frequency: 5,
-            update_only_on_progress: true
+            progress_only: false
           }}
       });
     </script>
     <!-- END OF THE PLAYER EMBEDDING -->
-
-
   </body>
 </html>
