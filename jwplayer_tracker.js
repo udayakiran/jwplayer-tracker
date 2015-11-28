@@ -1,7 +1,7 @@
 /**
- * jquery.confirmAction
+ * jwplayer_tracker.js
  *
- * @version 1.2
+ * @version 1.0
  *
  * @author Uday kiran
  * @author Uday kiran<udaykiran.vit@gmail.com>
@@ -20,8 +20,9 @@
       video_duration_callback: player.getDuration,
       resume_from_last: config.resume_from_last,
       progress_only: config.progress_only,
-      debug: config.debug
-    }); 
+      debug: config.debug,
+      additional_data: config.additional_data
+    });
 
     player.onReady(_setup);
 
@@ -77,6 +78,7 @@ function VideoProgressTracker(options) {
   this.video_duration_callback = options.video_duration_callback;
   this.resume_from_last = options.resume_from_last;
   this.debug = (options.debug === true) ? options.debug : false;
+  this.additional_data = options.additional_data;
   this.total_session_duration = 0;
   this.progress_only = (options.progress_only === true) ? options.progress_only : false;
   this.session_id = guid();
@@ -173,6 +175,10 @@ VideoProgressTracker.prototype.saveProgress = function () {
 
   if (!this.progress_only) {
     data.total_session_duration = self.total_session_duration;
+  }
+
+  if (this.additional_data) {
+    data.additional_data = this.additional_data;
   }
 
   this.log("progress info - " + console.log(JSON.parse(JSON.stringify(data))));
