@@ -1,6 +1,13 @@
 # jwplayer-progress
 
-A jwlayer (version 5) plugin to track video progress and meta data like page url, current browser / device and other parameters that are passed during the initialization.
+A jwlayer (version 5) plugin to track video the below information session by session.
+
+- Progress
+- Time spent on the video in any session
+- video length
+- Browser/Device (not included in params. Just read "user-agent" header of each request)
+
+- Also, lets you resume from the video from the last left point if you choose to.
 
 ## Sample Usage
 
@@ -37,11 +44,13 @@ Please check examples/tracker.html for sample configuration.
 
 ## Config Options
 
-- url - The URL on your app to which progress needs to be updated to. (This field is required)
-- progress - The initial progress percentage (probably the progress in the previous session.)
-- resume_from_last - Should the playback start from the last left place? (true/false - default is false). The playback resumes based on 'progress' field's value.
-- frequency - How frequently the progress info should be sent to the url (default - 10 ie every 10 secs)
-- progress_only - If set to true, only progress info is sent to server and it is sent only when there is some progress made. (true/false - default is false). Use this if you only want progress but not session time spent.
+| Option | Explanation |
+| ----- | ---- |
+| url | The URL on your app to which progress needs to be updated to. (This field is required) |
+| progress | The initial progress percentage (probably the progress in the previous session.) |
+| resume_from_last | Should the playback start from the last left place? (true/false - default is false). The playback resumes based on 'progress' field's value. |
+| frequency | How frequently the progress info should be sent to the url (default - 10 ie every 10 secs) |
+| progress_only | If set to true, only progress info is sent to server and it is sent only when there is some progress made. (true/false - default is false). Use this if you only want progress but not session time spent. |
 
 ## Information Received By Server 
 
@@ -54,13 +63,14 @@ Please check examples/tracker.html for sample configuration.
     total_session_duration:}
 
 ```
-
-- session_id - A globally unique session id string that helps to identify and store data per session. Every time the video player gets launched, a new session id gets created.
-- previous_position - The position of the video controlbar when last update happend (in secs)
-- current_position - The position of the video controlbar at present (in secs)
-- progress - The overall percentage of video is watched so far (percentage - max value is 100). This just means the highest point in the timeline so far.
-- video_duration - Total video length (in secs),
-- total_session_duration - Total amount of time spent watched in this session (in secs.). This is culumative and calcualtes the replays, seeking back and ettc.
+| Param | Explanation |
+| ----- | ---- |
+| session_id | A globally unique session id string that helps to identify and store data per session. Every time the video player gets launched, a new session id gets created. |
+| previous_position | The position of the video controlbar when last update happend (in secs) |
+| current_position | The position of the video controlbar at present (in secs) |
+| progress | The overall percentage of video is watched so far (percentage | max value is 100). This just means the highest point in the timeline so far. |
+| video_duration | Total video length (in secs) |
+| total_session_duration | Total amount of time spent watched in this session (in secs.). This is culumative and calcualtes the replays, seeking back and etc. |
 
 ## Tips
 
