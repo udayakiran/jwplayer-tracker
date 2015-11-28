@@ -1,4 +1,4 @@
-# jwplayer-progress
+# jwplayer-tracker
 
 A jwlayer (version 5) plugin to track video the below information session by session.
 
