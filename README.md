@@ -6,7 +6,6 @@ A jwlayer (version 5) plugin to track video the below information session by ses
 - Time spent on the video in any session
 - video length
 - Browser/Device (not included in params. Just read "user-agent" header of each request)
-
 - Also, lets you resume from the video from the last left point if you choose to.
 
 ## Sample Usage
@@ -19,8 +18,7 @@ A jwlayer (version 5) plugin to track video the below information session by ses
 <script type="text/javascript" src="jwplayer.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 ```
-
-3. Configure the plugin while initializing the player.
+- Configure the plugin while initializing the player.
 
 ```
 <script type="text/javascript">
