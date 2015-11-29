@@ -6,7 +6,7 @@ A jwlayer (version 5) plugin to track video the below information session by ses
 - Time spent on the video in any session
 - video length
 - Browser/Device (not included in params. Just read "user-agent" header of each request)
-- Also, lets you resume from the video from the last left point if you choose to.
+- Also, lets you resume the video from the last left point if you choose to.
 
 ## Sample Usage
 
